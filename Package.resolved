@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "StripeCore",
+      "kind" : "localSourceControl",
+      "location" : "/Users/balazs/dev/ios/StripeCore",
+      "state" : {
+        "revision" : "b5662b66d53ea74bc39e0ff609d85cbfde3110b8",
+        "version" : "24.0.0"
+      }
+    }
+  ],
+  "version" : 2
+}
