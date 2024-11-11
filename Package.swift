@@ -14,14 +14,14 @@ let package = Package(
             targets: ["StripeApplePay"]),
     ],
     dependencies: [
-        .package(url: "file:///Users/balazs/dev/ios/StripeCore", from: "24.0.0"),
+        .package(url: "https://github.com/CodeLikeW/stripe-core", from: "24.0.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
             name: "StripeApplePay",
-            dependencies: ["StripeCore"]
+            dependencies: [.product(name: "StripeCore", package: "stripe-core")]
         ),
         .testTarget(
             name: "StripeApplePayTests",

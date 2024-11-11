@@ -1,9 +1,9 @@
 {
   "pins" : [
     {
-      "identity" : "StripeCore",
-      "kind" : "localSourceControl",
-      "location" : "/Users/balazs/dev/ios/StripeCore",
+      "identity" : "stripe-core",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CodeLikeW/stripe-core",
       "state" : {
         "revision" : "b5662b66d53ea74bc39e0ff609d85cbfde3110b8",
         "version" : "24.0.0"
