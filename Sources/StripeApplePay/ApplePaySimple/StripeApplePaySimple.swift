@@ -3,7 +3,7 @@ import Foundation
 import PassKit
 import StripeCore
 
-public struct STPApplePaySimple {
+public struct StripeApplePaySimple {
 
     enum Const {
         /// A special string that can be passed in place of a intent client secret to force showing success and return a PaymentState of `success`.
@@ -12,17 +12,7 @@ public struct STPApplePaySimple {
         @_spi(STP) public static let COMPLETE_WITHOUT_CONFIRMING_INTENT = "COMPLETE_WITHOUT_CONFIRMING_INTENT"
     }
 
-    private func isValid(clientSecret: String) -> Bool {
-        guard clientSecret != Const.COMPLETE_WITHOUT_CONFIRMING_INTENT else {
-            return false
-        }
-        return true
-    }
-
-    /// - Returns: true for Setup Intent, false for Payment Intent
-    private func isForSetupIntent(clientSecret: String) -> Bool {
-        StripeAPI.SetupIntentConfirmParams.isClientSecretValid(clientSecret)
-    }
+    public init() {}
 
     public func complete(
         payment: PKPayment,
@@ -62,5 +52,17 @@ public struct STPApplePaySimple {
             let applePayErrors = [STPAPIClient.pkPaymentError(forStripeError: error)].compactMap { $0 }
             return .init(status: .failure, errors: applePayErrors)
         }
+    }
+
+    private func isValid(clientSecret: String) -> Bool {
+        guard clientSecret != Const.COMPLETE_WITHOUT_CONFIRMING_INTENT else {
+            return false
+        }
+        return true
+    }
+
+    /// - Returns: true for Setup Intent, false for Payment Intent
+    private func isForSetupIntent(clientSecret: String) -> Bool {
+        StripeAPI.SetupIntentConfirmParams.isClientSecretValid(clientSecret)
     }
 }

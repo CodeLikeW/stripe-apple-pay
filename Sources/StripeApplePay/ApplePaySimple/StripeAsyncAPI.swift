@@ -18,7 +18,7 @@ enum StripeAsyncError: Swift.Error {
 @objc(STPApplePayContext)
 public class STPApplePayContext: NSObject {}
 
-public struct StripeAsyncAPI {
+struct StripeAsyncAPI {
     private let apiClient: STPAPIClient
 
     public init(apiClient: STPAPIClient = STPAPIClient.shared) {
