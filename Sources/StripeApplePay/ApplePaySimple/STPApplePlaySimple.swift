@@ -5,8 +5,15 @@ import StripeCore
 
 public struct STPApplePaySimple {
 
+    enum Const {
+        /// A special string that can be passed in place of a intent client secret to force showing success and return a PaymentState of `success`.
+        /// - Note: ⚠️ If provided, the SDK performs no action to complete the payment or setup - it doesn't confirm a PaymentIntent or SetupIntent or handle next actions.
+        ///   You should only use this if your integration can't create a PaymentIntent or SetupIntent. It is your responsibility to ensure that you only pass this value if the payment or set up is successful.
+        @_spi(STP) public static let COMPLETE_WITHOUT_CONFIRMING_INTENT = "COMPLETE_WITHOUT_CONFIRMING_INTENT"
+    }
+
     private func isValid(clientSecret: String) -> Bool {
-        guard clientSecret != STPApplePayContext.COMPLETE_WITHOUT_CONFIRMING_INTENT else {
+        guard clientSecret != Const.COMPLETE_WITHOUT_CONFIRMING_INTENT else {
             return false
         }
         return true
@@ -52,7 +59,8 @@ public struct STPApplePaySimple {
                 throw error
             }
         } catch (let error) {
-            return .init(status: .failure, errors: [error])
+            let applePayErrors = [STPAPIClient.pkPaymentError(forStripeError: error)].compactMap { $0 }
+            return .init(status: .failure, errors: applePayErrors)
         }
     }
 }

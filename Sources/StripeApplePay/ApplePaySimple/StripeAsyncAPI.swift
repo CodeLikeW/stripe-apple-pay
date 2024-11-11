@@ -12,6 +12,12 @@ enum StripeAsyncError: Swift.Error {
     case paymentIntentInvalidState
 }
 
+/// This is left here only to help the StripeCore's
+/// ``PaymentsSDKVariant.variant`` finds this class
+/// using ``NSClassFromString``
+@objc(STPApplePayContext)
+public class STPApplePayContext: NSObject {}
+
 public struct StripeAsyncAPI {
     private let apiClient: STPAPIClient
 
