@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CodeLikeW/stripe-core",
       "state" : {
-        "revision" : "b5662b66d53ea74bc39e0ff609d85cbfde3110b8",
-        "version" : "24.0.0"
+        "revision" : "83809c8e0187e48c88a3f4f4ac0ffdc5bc704bfd",
+        "version" : "24.23.0"
       }
     }
   ],
