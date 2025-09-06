@@ -14,7 +14,7 @@ let package = Package(
             targets: ["StripeApplePay"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/CodeLikeW/stripe-core", from: "24.0.0"),
+        .package(url: "https://github.com/CodeLikeW/stripe-core", from: "24.23.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
