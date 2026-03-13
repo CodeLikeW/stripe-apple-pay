@@ -2,7 +2,7 @@
 
 Based on StripeApplePay iOS SDK, modified for Apple Pay only, but targeting macOS as well.
 The original can be found at: https://github.com/stripe/stripe-ios
-This is based on version 24.0.0 of the stipe-ios SDK.
+This is based on version 25.7.1 (#4d3415290f502bdfeae25181251910136e6ddce0) of the stipe-ios SDK.
 
 ## Requirements
 

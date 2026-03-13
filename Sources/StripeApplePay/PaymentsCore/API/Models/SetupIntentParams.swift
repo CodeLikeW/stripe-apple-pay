@@ -46,7 +46,7 @@ extension StripeAPI {
         /// When set to true, the nextAction may contain information that the Stripe SDK can use to perform native authentication within your
         /// app.
         @_spi(STP) public var useStripeSdk: Bool?
-
+        
         @_spi(STP) public var _additionalParametersStorage: NonEncodableParameters?
 
         // MARK: - Utilities
