@@ -63,7 +63,7 @@ public struct StripeAsyncAPI {
             confirmParams.useStripeSdk = true
             confirmParams.returnUrl = returnURLPath
             try await confirmSetupIntent(params: confirmParams)
-        case .canceled, .processing, .unknown, .unparsable, .none:
+        case .canceled, .processing, .unknown, .unparsable:
             throw StripeAsyncError.setupIntentInvalidState
         }
     }
