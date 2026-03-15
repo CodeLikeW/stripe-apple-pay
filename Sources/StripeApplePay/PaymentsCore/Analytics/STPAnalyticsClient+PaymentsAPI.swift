@@ -59,7 +59,7 @@ extension STPAnalyticsClient {
     }
 }
 
-struct PaymentAPIAnalytic: PaymentAnalytic {
+@MainActor struct PaymentAPIAnalytic: @MainActor PaymentAnalytic {
     let event: STPAnalyticEvent
     let additionalParams: [String: Any]
 }

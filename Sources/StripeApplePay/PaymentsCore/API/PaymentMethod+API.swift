@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import PassKit
+@preconcurrency import PassKit
 @_spi(STP) import StripeCore
 
 extension StripeAPI.PaymentMethod {

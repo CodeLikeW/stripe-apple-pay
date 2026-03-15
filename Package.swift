@@ -1,4 +1,4 @@
-// swift-tools-version: 5.7
+// swift-tools-version: 6.0
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -14,8 +14,7 @@ let package = Package(
             targets: ["StripeApplePay"]),
     ],
     dependencies: [
-//        .package(url: "https://github.com/CodeLikeW/stripe-core", from: "25.7.1"),
-        .package(path: "../stripe-core"),
+       .package(url: "https://github.com/CodeLikeW/stripe-core", from: "25.7.2"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.

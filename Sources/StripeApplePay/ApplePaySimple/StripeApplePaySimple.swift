@@ -1,6 +1,6 @@
 
 import Foundation
-import PassKit
+@preconcurrency import PassKit
 import StripeCore
 
 public struct StripeApplePaySimple {

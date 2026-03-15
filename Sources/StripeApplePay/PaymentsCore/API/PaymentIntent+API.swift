@@ -62,7 +62,6 @@ extension StripeAPI.PaymentIntent {
             completion(.failure(StripeError.invalidRequest))
             return
         }
-        let apiClient: STPAPIClient = .shared
         let endpoint = "\(Resource)/\(identifier)/confirm"
 
         let type = params.paymentMethodData?.type.rawValue
