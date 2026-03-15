@@ -45,7 +45,6 @@ extension StripeAPI {
 
         /// :nodoc:
         public struct Card: UnknownFieldsDecodable {
-            public var _allResponseFieldsStorage: NonEncodableParameters?
             /// The issuer of the card.
             public private(set) var brand: Brand = .unknown
 
@@ -95,7 +94,6 @@ extension StripeAPI {
             public private(set) var wallet: Wallet?
 
             public struct Networks: UnknownFieldsDecodable {
-                public var _allResponseFieldsStorage: NonEncodableParameters?
 
                 /// All available networks for the card.
                 public private(set) var available: [String]?
@@ -105,14 +103,12 @@ extension StripeAPI {
 
             /// Contains details on how a `Card` may be used for 3D Secure authentication.
             public struct ThreeDSecureUsage: UnknownFieldsDecodable {
-                public var _allResponseFieldsStorage: NonEncodableParameters?
 
                 /// `true` if 3D Secure is supported on this card.
                 public private(set) var supported = false
             }
 
             public struct Wallet: UnknownFieldsDecodable {
-                public var _allResponseFieldsStorage: NonEncodableParameters?
                 /// The type of the Card Wallet. A matching property is populated if the type is `.masterpass` or `.visaCheckout` containing additional information specific to the Card Wallet type.
                 public private(set) var type: WalletType = .unknown
                 /// Contains additional Masterpass information, if the type of the Card Wallet is `STPPaymentMethodCardWalletTypeMasterpass`
@@ -142,7 +138,6 @@ extension StripeAPI {
                 }
 
                 public struct Masterpass: UnknownFieldsDecodable {
-                    public var _allResponseFieldsStorage: NonEncodableParameters?
 
                     /// Owner’s verified email. Values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement.
                     public private(set) var email: String?
@@ -165,12 +160,8 @@ extension StripeAPI {
                     public private(set) var billingAddress: BillingDetails.Address?
                     /// Owner’s verified shipping address. Values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement.
                     public private(set) var shippingAddress: BillingDetails.Address?
-
-                    public var _allResponseFieldsStorage: NonEncodableParameters?
                 }
             }
         }
-
-        public var _allResponseFieldsStorage: NonEncodableParameters?
     }
 }

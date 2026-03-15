@@ -15,19 +15,20 @@ extension StripeAPI.Token {
     /// - Parameters:
     ///   - token: The Stripe token from the response. Will be nil if an error occurs. - seealso: STPToken
     ///   - error: The error returned from the response, or nil if none occurs. - seealso: StripeError.h for possible values.
-    @_spi(StripeApplePayTokenization) public typealias TokenCompletionBlock = (Result<StripeAPI.Token, Error>) -> Void
+    @_spi(StripeApplePayTokenization) public typealias TokenCompletionBlock = @Sendable (Result<StripeAPI.Token, Error>) -> Void
 
     /// Converts a PKPayment object into a Stripe token using the Stripe API.
     /// - Parameters:
     ///   - payment:     The user's encrypted payment information as returned from a PKPaymentAuthorizationController. Cannot be nil.
     ///   - completion:  The callback to run with the returned Stripe token (and any errors that may have occurred).
-    @_spi(StripeApplePayTokenization) public static func create(
-        apiClient: STPAPIClient = .shared,
+    @MainActor @_spi(StripeApplePayTokenization) public static func create(
+        apiClient: STPAPIClient,
         payment: PKPayment,
         completion: @escaping TokenCompletionBlock
     ) {
         // Internal note: @_spi(StripeApplePayTokenization) is intended for limited public use. See https://docs.google.com/document/d/1Z9bTUBvDDufoqTaQeI3A0Cxdsoj_D0IkxdWX-GB-RTQ
-        let params = payment.stp_tokenParameters(apiClient: apiClient)
+        let usingLiveKey = apiClient.publishableKey?.hasPrefix("pk_live") ?? false
+        let params = payment.stp_tokenParameters(usingLiveKey: usingLiveKey)
         create(
             apiClient: apiClient,
             parameters: params,
@@ -35,8 +36,8 @@ extension StripeAPI.Token {
         )
     }
 
-    static func create(
-        apiClient: STPAPIClient = .shared,
+    @MainActor static func create(
+        apiClient: STPAPIClient,
         parameters: [String: Any],
         completion: @escaping TokenCompletionBlock
     ) {
@@ -53,7 +54,7 @@ extension StripeAPI.Token {
 }
 
 extension PKPayment {
-    func stp_tokenParameters(apiClient: STPAPIClient) -> [String: Any] {
+    func stp_tokenParameters(usingLiveKey: Bool) -> [String: Any] {
         let paymentString = String(data: self.token.paymentData, encoding: .utf8)
         var payload: [String: Any] = [:]
         payload["pk_token"] = paymentString
@@ -63,7 +64,7 @@ extension PKPayment {
 
         assert(
             !((paymentString?.count ?? 0) == 0
-                && apiClient.publishableKey?.hasPrefix("pk_live") ?? false),
+                && usingLiveKey),
             "The pk_token is empty. Using Apple Pay with an iOS Simulator while not in Stripe Test Mode will always fail."
         )
 

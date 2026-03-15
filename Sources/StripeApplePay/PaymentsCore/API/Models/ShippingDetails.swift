@@ -16,17 +16,13 @@ extension StripeAPI {
             name: String,
             carrier: String? = nil,
             phone: String? = nil,
-            trackingNumber: String? = nil,
-            _allResponseFieldsStorage: NonEncodableParameters? = nil,
-            _additionalParametersStorage: NonEncodableParameters? = nil
+            trackingNumber: String? = nil
         ) {
             self.address = address
             self.name = name
             self.carrier = carrier
             self.phone = phone
             self.trackingNumber = trackingNumber
-            self._allResponseFieldsStorage = _allResponseFieldsStorage
-            self._additionalParametersStorage = _additionalParametersStorage
         }
 
         /// Shipping address.
@@ -44,9 +40,6 @@ extension StripeAPI {
         /// The tracking number for a physical product, obtained from the delivery service. If multiple tracking numbers were generated for this purchase, please separate them with commas.
         @_spi(STP) public var trackingNumber: String?
 
-        @_spi(STP) public var _allResponseFieldsStorage: NonEncodableParameters?
-        @_spi(STP) public var _additionalParametersStorage: NonEncodableParameters?
-
         @_spi(STP) public struct Address: UnknownFieldsCodable, Equatable {
             @_spi(STP) public init(
                 city: String? = nil,
@@ -54,9 +47,7 @@ extension StripeAPI {
                 line1: String? = nil,
                 line2: String? = nil,
                 postalCode: String? = nil,
-                state: String? = nil,
-                _allResponseFieldsStorage: NonEncodableParameters? = nil,
-                _additionalParametersStorage: NonEncodableParameters? = nil
+                state: String? = nil
             ) {
                 self.city = city
                 self.country = country
@@ -64,8 +55,6 @@ extension StripeAPI {
                 self.line2 = line2
                 self.postalCode = postalCode
                 self.state = state
-                self._allResponseFieldsStorage = _allResponseFieldsStorage
-                self._additionalParametersStorage = _additionalParametersStorage
             }
 
             /// City/District/Suburb/Town/Village.
@@ -85,9 +74,6 @@ extension StripeAPI {
 
             /// State/County/Province/Region.
             @_spi(STP) public var state: String?
-
-            @_spi(STP) public var _allResponseFieldsStorage: NonEncodableParameters?
-            @_spi(STP) public var _additionalParametersStorage: NonEncodableParameters?
         }
     }
 }

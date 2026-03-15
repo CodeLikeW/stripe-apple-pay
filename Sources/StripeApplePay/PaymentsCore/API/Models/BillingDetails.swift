@@ -35,9 +35,6 @@ extension StripeAPI {
 
             /// The ISO country code of the address (e.g. "US")
             public var country: String?
-
-            public var _additionalParametersStorage: NonEncodableParameters?
-            public var _allResponseFieldsStorage: NonEncodableParameters?
         }
 
         /// Email address.
@@ -46,9 +43,6 @@ extension StripeAPI {
         public var name: String?
         /// Billing phone number (including extension).
         public var phone: String?
-
-        public var _additionalParametersStorage: NonEncodableParameters?
-        public var _allResponseFieldsStorage: NonEncodableParameters?
     }
 
 }

@@ -1,6 +1,6 @@
 
 import Foundation
-import PassKit
+@preconcurrency import PassKit
 import StripeCore
 
 public struct StripeApplePaySimple {
@@ -18,7 +18,7 @@ public struct StripeApplePaySimple {
         payment: PKPayment,
         returnURLPath: String?,
         usingClientSecretProvider clientSecretProvider: @escaping () async -> Result<String, Error>,
-        withAPI stripe: StripeAsyncAPI = StripeAsyncAPI()
+        withAPI stripe: StripeAsyncAPI
     ) async -> PKPaymentAuthorizationResult {
         do {
             // 1. Create PaymentMethod
@@ -49,7 +49,7 @@ public struct StripeApplePaySimple {
                 throw error
             }
         } catch (let error) {
-            let applePayErrors = [STPAPIClient.pkPaymentError(forStripeError: error)].compactMap { $0 }
+            let applePayErrors = [await STPAPIClient.pkPaymentError(forStripeError: error)].compactMap { $0 }
             return .init(status: .failure, errors: applePayErrors)
         }
     }

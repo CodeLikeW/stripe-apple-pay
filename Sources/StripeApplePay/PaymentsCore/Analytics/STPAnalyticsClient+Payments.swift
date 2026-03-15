@@ -16,6 +16,7 @@ import Foundation
 }
 
 @_spi(STP) extension PaymentAnalytic {
+    @MainActor
     public var params: [String: Any] {
         var params = additionalParams
 

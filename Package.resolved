@@ -1,14 +1,15 @@
 {
+  "originHash" : "143a91ed76b6ef713ea90dfffdb1b8a52b26248f15d1707cb9ce3d009b0e5c3a",
   "pins" : [
     {
       "identity" : "stripe-core",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/CodeLikeW/stripe-core",
       "state" : {
-        "revision" : "83809c8e0187e48c88a3f4f4ac0ffdc5bc704bfd",
-        "version" : "24.23.0"
+        "revision" : "ef6d95d4a74796bb739df49dc41d24f1d58a6d2a",
+        "version" : "25.7.2"
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
