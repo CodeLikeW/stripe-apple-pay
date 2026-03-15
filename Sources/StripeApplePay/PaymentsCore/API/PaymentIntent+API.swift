@@ -14,7 +14,7 @@ extension StripeAPI.PaymentIntent {
     /// - Parameters:
     ///   - paymentIntent: The Stripe PaymentIntent from the response. Will be nil if an error occurs. - seealso: PaymentIntent
     ///   - error: The error returned from the response, or nil if none occurs. - seealso: StripeError.h for possible values.
-    @_spi(STP) public typealias PaymentIntentCompletionBlock = (
+    @_spi(STP) public typealias PaymentIntentCompletionBlock = @Sendable (
         Result<StripeAPI.PaymentIntent, Error>
     ) -> Void
 
@@ -22,8 +22,8 @@ extension StripeAPI.PaymentIntent {
     /// - Parameters:
     ///   - secret:      The client secret of the payment intent to be retrieved. Cannot be nil.
     ///   - completion:  The callback to run with the returned PaymentIntent object, or an error.
-    @_spi(STP) public static func get(
-        apiClient: STPAPIClient = .shared,
+    @MainActor @_spi(STP) public static func get(
+        apiClient: STPAPIClient,
         clientSecret: String,
         completion: @escaping PaymentIntentCompletionBlock
     ) {
@@ -49,8 +49,8 @@ extension StripeAPI.PaymentIntent {
     /// - Parameters:
     ///   - paymentIntentParams:  The `PaymentIntentParams` to pass to `/confirm`
     ///   - completion:           The callback to run with the returned PaymentIntent object, or an error.
-    @_spi(STP) public static func confirm(
-        apiClient: STPAPIClient = .shared,
+    @MainActor @_spi(STP) public static func confirm(
+        apiClient: STPAPIClient,
         params: StripeAPI.PaymentIntentParams,
         completion: @escaping PaymentIntentCompletionBlock
     ) {
@@ -58,12 +58,11 @@ extension StripeAPI.PaymentIntent {
             StripeAPI.PaymentIntentParams.isClientSecretValid(params.clientSecret),
             "`paymentIntentParams.clientSecret` format does not match expected client secret formatting."
         )
-
-        guard let identifier = StripeAPI.PaymentIntent.id(fromClientSecret: params.clientSecret)
-        else {
+        guard let identifier = StripeAPI.PaymentIntent.id(fromClientSecret: params.clientSecret) else {
             completion(.failure(StripeError.invalidRequest))
             return
         }
+        let apiClient: STPAPIClient = .shared
         let endpoint = "\(Resource)/\(identifier)/confirm"
 
         let type = params.paymentMethodData?.type.rawValue
@@ -72,13 +71,7 @@ extension StripeAPI.PaymentIntent {
         )
 
         // Add telemetry
-        var paramsWithTelemetry = params
-        if let pmAdditionalParams = paramsWithTelemetry.paymentMethodData?.additionalParameters {
-            paramsWithTelemetry.paymentMethodData?.additionalParameters = STPTelemetryClient.shared
-                .paramsByAddingTelemetryFields(toParams: pmAdditionalParams)
-        }
-
-        apiClient.post(resource: endpoint, object: paramsWithTelemetry, completion: completion)
+        apiClient.post(resource: endpoint, object: params, completion: completion)
     }
 
     static let Resource = "payment_intents"

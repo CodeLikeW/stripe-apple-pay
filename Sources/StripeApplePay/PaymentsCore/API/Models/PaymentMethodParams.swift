@@ -49,10 +49,7 @@ extension StripeAPI {
                     return nil
                 }
             }
-            @_spi(STP) public var _additionalParametersStorage: NonEncodableParameters?
         }
-
-        @_spi(STP) public var _additionalParametersStorage: NonEncodableParameters?
     }
 }
 

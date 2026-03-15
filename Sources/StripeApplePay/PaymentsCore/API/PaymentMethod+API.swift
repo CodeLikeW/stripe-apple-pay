@@ -15,12 +15,13 @@ extension StripeAPI.PaymentMethod {
     /// - Parameters:
     ///   - paymentMethod: The Stripe PaymentMethod from the response. Will be nil if an error occurs. - seealso: PaymentMethod
     ///   - error: The error returned from the response, or nil if none occurs. - seealso: StripeError.h for possible values.
-    @_spi(STP) public typealias PaymentMethodCompletionBlock = (
+    @_spi(STP) public typealias PaymentMethodCompletionBlock = @Sendable (
         Result<StripeAPI.PaymentMethod, Error>
     ) -> Void
 
+    @MainActor
     static func create(
-        apiClient: STPAPIClient = .shared,
+        apiClient: STPAPIClient,
         params: StripeAPI.PaymentMethodParams,
         completion: @escaping PaymentMethodCompletionBlock
     ) {
@@ -34,12 +35,12 @@ extension StripeAPI.PaymentMethod {
     /// - Parameters:
     ///   - payment:     The user's encrypted payment information as returned from a PKPaymentAuthorizationController. Cannot be nil.
     ///   - completion:  The callback to run with the returned Stripe source (and any errors that may have occurred).
-    @_spi(STP) public static func create(
-        apiClient: STPAPIClient = .shared,
+    @MainActor @_spi(STP) public static func create(
+        apiClient: STPAPIClient,
         payment: PKPayment,
         completion: @escaping PaymentMethodCompletionBlock
     ) {
-        StripeAPI.Token.create(apiClient: apiClient, payment: payment) { (result) in
+        StripeAPI.Token.create(apiClient: apiClient, payment: payment) { result in
             guard let token = try? result.get() else {
                 if case .failure(let error) = result {
                     completion(.failure(error))
@@ -53,7 +54,9 @@ extension StripeAPI.PaymentMethod {
             let billingDetails = StripeAPI.BillingDetails(from: payment)
             var paymentMethodParams = StripeAPI.PaymentMethodParams(type: .card, card: cardParams)
             paymentMethodParams.billingDetails = billingDetails
-            Self.create(apiClient: apiClient, params: paymentMethodParams, completion: completion)
+            Task { @MainActor in
+                Self.create(apiClient: apiClient, params: paymentMethodParams, completion: completion)
+            }
         }
     }
 

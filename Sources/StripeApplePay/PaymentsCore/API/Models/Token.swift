@@ -13,7 +13,6 @@ import PassKit
 extension StripeAPI {
     // Internal note: @_spi(StripeApplePayTokenization) is intended for limited public use. See https://docs.google.com/document/d/1Z9bTUBvDDufoqTaQeI3A0Cxdsoj_D0IkxdWX-GB-RTQ
     @_spi(StripeApplePayTokenization) public struct Token: UnknownFieldsDecodable {
-        public var _allResponseFieldsStorage: NonEncodableParameters?
 
         /// The value of the token. You can store this value on your server and use it to make charges and customers.
         /// - seealso: https://stripe.com/docs/payments/charges-api
@@ -48,17 +47,18 @@ extension StripeAPI {
         var created: Date
 
         struct Card: UnknownFieldsDecodable {
-            var _allResponseFieldsStorage: NonEncodableParameters?
-
             /// The last 4 digits of the card.
             var last4: String
             /// For cards made with Apple Pay, this refers to the last 4 digits of the
             /// "Device Account Number" for the tokenized card. For regular cards, it will
             /// be nil.
             var dynamicLast4: String?
+            
+            var tokenization_method: String?
+            
             /// Whether or not the card originated from Apple Pay.
             var isApplePayCard: Bool {
-                return (allResponseFields["tokenization_method"] as? String) == "apple_pay"
+                return tokenization_method == "apple_pay"
             }
             /// The card's expiration month. 1-indexed (i.e. 1 == January)
             var expMonth: Int

@@ -109,8 +109,6 @@ extension StripeAPI {
             // TODO: This is @frozen because of a bug in the Xcode 12.2 Swift compiler.
             // Remove @frozen after Xcode 12.2 support has been dropped.
         }
-
-        @_spi(STP) public var _allResponseFieldsStorage: NonEncodableParameters?
     }
 }
 

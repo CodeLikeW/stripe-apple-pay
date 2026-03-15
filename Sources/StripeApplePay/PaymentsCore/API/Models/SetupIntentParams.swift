@@ -17,15 +17,13 @@ extension StripeAPI {
             paymentMethodData: StripeAPI.PaymentMethodParams? = nil,
             paymentMethod: String? = nil,
             returnUrl: String? = nil,
-            useStripeSdk: Bool? = nil,
-            _additionalParametersStorage: NonEncodableParameters? = nil
+            useStripeSdk: Bool? = nil
         ) {
             self.clientSecret = clientSecret
             self.paymentMethodData = paymentMethodData
             self.paymentMethod = paymentMethod
             self.returnUrl = returnUrl
             self.useStripeSdk = useStripeSdk
-            self._additionalParametersStorage = _additionalParametersStorage
         }
 
         /// The client secret of the SetupIntent. Required.
@@ -46,8 +44,6 @@ extension StripeAPI {
         /// When set to true, the nextAction may contain information that the Stripe SDK can use to perform native authentication within your
         /// app.
         @_spi(STP) public var useStripeSdk: Bool?
-        
-        @_spi(STP) public var _additionalParametersStorage: NonEncodableParameters?
 
         // MARK: - Utilities
         static private let regex = try! NSRegularExpression(
